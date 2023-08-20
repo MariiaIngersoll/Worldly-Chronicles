@@ -33,7 +33,7 @@ class Post(db.Model):
     def __repr__(self):
         return f'"{self.title}" was created at {self.createdAt} by {self.user_id}'
     
-class Comment(db.model):
+class Comment(db.Model):
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -42,6 +42,15 @@ class Comment(db.model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+
+class Location(db.Model):
+    __tablename__ = 'locations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    country = db.Column(db.String)
+    city = db.Column(db.String)
+
+
 
 
 
