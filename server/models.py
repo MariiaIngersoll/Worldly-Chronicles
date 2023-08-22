@@ -36,12 +36,20 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     comments = db.relationship('Comment', backref = 'post')
+    images = db.relationship('Image', backref = 'post')
 
     locations = db.relationship('Location', secondary=post_location_association, back_populates='posts')
 
     def __repr__(self):
         return f'"{self.title}" was created at {self.createdAt} by {self.user_id}'
     
+class Image(db.Model):
+    __tablename__ = 'images'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+
 class Comment(db.Model):
     __tablename__ = 'comments'
 
