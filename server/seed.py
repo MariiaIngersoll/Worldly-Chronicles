@@ -37,10 +37,6 @@ if __name__ == '__main__':
             'my_phase_4_pictures/topic-london-gettyimages-760251843-feature.jpeg'
         ]
         titles = [
-            'Unveiling the Eternal City: Exploring the Wonders of Rome',
-            'Enchanting Venice: A Journey Through the City of Canals and Culture',
-            'Saint Petersburg: A Journey Through Russia`s Cultural Gem',
-            'Majestic Moscow: Unveiling the Heart of Russia`s History and Modernity',
             'Rio de Janeiro Revealed: Exploring the Marvels of Brazil`s Vibrant City"',
             'Budapest Unveiled: Discovering the Beauty and Culture of the Pearl of Budapest',
             'Exploring New York: The Heart of the Big Apple',
@@ -62,69 +58,80 @@ if __name__ == '__main__':
 
         users = []
 
+        # Create and add users to the database
         for i in range(70):
             user = User(
-                username = fake.user_name(),
-                email = fake.email(),
-                countryOfBirth = fake.country()
+                username=fake.user_name(),
+                email=fake.email(),
+                countryOfBirth=fake.country()
             )
             db.session.add(user)
-            db.session.commit()
             users.append(user)
 
-# creating posts 
+        db.session.commit()
 
+        # Create and add posts to the database
         posts = []
 
         italyPost = Post(
             title="Exploring Italy: From Rome to Venice",
-            content = descriptions[0] + "\n\n" + descriptions[1],
-            user_id = rc(users).id
+            content=descriptions[0] + "\n\n" + descriptions[1],
+            user_id=rc(users).id
         )
         russiaPost = Post(
             title="Discovering Russia: From Saint Petersburg to Moscow",
-            content = descriptions[2] + "\n\n" + descriptions[3],
-            user_id = rc(users).id
+            content=descriptions[2] + "\n\n" + descriptions[3],
+            user_id=rc(users).id
         )
         db.session.add_all([italyPost, russiaPost])
+
+        # Create and add remaining posts to the database
+        for title, description in zip(titles, descriptions[4:]):
+            post = Post(
+                title=title,
+                content=description,
+                user_id=rc(users).id
+            )
+            posts.append(post)
+
+        db.session.add_all(posts)
         db.session.commit()
 
-        remaining_titles = titles[4:]
-        remaining_descriptions = descriptions[4:]
-
-        for title, description in zip(remaining_descriptions,remaining_titles):
-            post = Post(
-                title = title,
-                content = description,
-                user_id = rc(users).id
-            )
-            db.session.add(post)
-            db.session.commit()
-            
-
-# adding images
         # Get the Italy post from the database
         italy_post = Post.query.filter_by(title="Exploring Italy: From Rome to Venice").first()
+
+        # Create and associate images with the Italy post
         italy_images = [
             Image(url=image_urls[0]),
             Image(url=image_urls[1]),
             Image(url=image_urls[2])
         ]
         italy_post.images.extend(italy_images)
-        pdb.set_trace()
+
         db.session.add(italy_post)
         db.session.commit()
 
-        italy_post = Post.query.filter_by(title="Exploring Italy: From Rome to Venice").first()
-        print(italy_post.images)
+        # Get the Russia post from the database
+        russia_post = Post.query.filter_by(title="Discovering Russia: From Saint Petersburg to Moscow").first()
 
+        # Create and associate images with the Russia post
+        russia_images = [
+            Image(url=image_urls[3]),
+            Image(url=image_urls[4])
+        ]
+        russia_post.images.extend(russia_images)
 
+        db.session.add(russia_post)
+        db.session.commit()
+
+        # Associate remaining images with their respective posts
+        for post, url in zip(posts, image_urls[5:]):
+            # set_trace()
+            image = Image(
+                url=url
+            )
+            post.images.append(image)
+            db.session.add(post)
         
-
-
-
-
-        
-
-
+            db.session.commit()
 
