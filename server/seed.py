@@ -2,6 +2,7 @@
 
 # Standard library imports
 from random import randint, choice as rc
+import pdb
 
 # Remote library imports
 from faker import Faker
@@ -57,9 +58,7 @@ if __name__ == '__main__':
             "London, a city steeped in history and modernity, is a captivating blend of tradition and innovation. From the regal palaces of Buckingham and Kensington to the cutting-edge architecture of the Shard and the Gherkin, London's skyline mirrors its evolution through time. The River Thames flows as a witness to centuries of stories, with Tower Bridge and the iconic Big Ben standing as sentinels of its past. The British Museum, a treasure trove of global heritage, and the contemporary Tate Modern showcase London's commitment to both preserving history and embracing the avant-garde. As red double-decker buses navigate winding streets and black cabs traverse bustling intersections, the city's rhythm resonates with a cosmopolitan pulse. From the world-class shopping of Oxford Street to the cozy charm of Notting Hill's colorful houses, London's neighborhoods each have a distinct personality. This city of foggy charm and cultural magnetism continues to attract dreamers, professionals, and seekers of the extraordinary, offering a timeless allure that captivates all who venture into its midst."
 
         ]
-        locations= [
-            
-        ]
+
 
         users = []
 
@@ -101,11 +100,28 @@ if __name__ == '__main__':
             )
             db.session.add(post)
             db.session.commit()
+            
+
+# adding images
+        # Get the Italy post from the database
+        italy_post = Post.query.filter_by(title="Exploring Italy: From Rome to Venice").first()
+        italy_images = [
+            Image(url=image_urls[0]),
+            Image(url=image_urls[1]),
+            Image(url=image_urls[2])
+        ]
+        italy_post.images.extend(italy_images)
+        pdb.set_trace()
+        db.session.add(italy_post)
+        db.session.commit()
+
+        italy_post = Post.query.filter_by(title="Exploring Italy: From Rome to Venice").first()
+        print(italy_post.images)
 
 
+        
 
-# creating images
-        images = []
+
 
 
         
