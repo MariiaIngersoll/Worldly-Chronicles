@@ -10,7 +10,8 @@ fake = Faker()
 # Local imports
 from app import app
 from config import db
-from models import User, Post, Comment, Location, Image
+from models import User, Post, Location, Image
+from ipdb import set_trace
 
 
 if __name__ == '__main__':
@@ -20,28 +21,8 @@ if __name__ == '__main__':
         print("Deleting all records...")
         User.query.delete()
         Post.query.delete()
-        Comment.query.delete()
         Image.query.delete()
-
-        print("Starting seed...")
-        # Seed code goes here!
-        
-        
-        users = []
-
-        for i in range(70):
-            user = User(
-                username = fake.user_name(),
-                email = fake.email(),
-                countryOfBirth = fake.country()
-            )
-            db.session.add(user)
-            db.session.commit()
-            users.append(user)
-
-        posts = []
-
-
+        Location.query.delete()
 
         image_urls = [
             'my_phase_4_pictures/rome.jpeg',
@@ -53,9 +34,6 @@ if __name__ == '__main__':
             'my_phase_4_pictures/budapest.jpeg',
             'my_phase_4_pictures/newyork.jpeg',
             'my_phase_4_pictures/topic-london-gettyimages-760251843-feature.jpeg'
-
-            
-
         ]
         titles = [
             'Unveiling the Eternal City: Exploring the Wonders of Rome',
@@ -79,18 +57,56 @@ if __name__ == '__main__':
             "London, a city steeped in history and modernity, is a captivating blend of tradition and innovation. From the regal palaces of Buckingham and Kensington to the cutting-edge architecture of the Shard and the Gherkin, London's skyline mirrors its evolution through time. The River Thames flows as a witness to centuries of stories, with Tower Bridge and the iconic Big Ben standing as sentinels of its past. The British Museum, a treasure trove of global heritage, and the contemporary Tate Modern showcase London's commitment to both preserving history and embracing the avant-garde. As red double-decker buses navigate winding streets and black cabs traverse bustling intersections, the city's rhythm resonates with a cosmopolitan pulse. From the world-class shopping of Oxford Street to the cozy charm of Notting Hill's colorful houses, London's neighborhoods each have a distinct personality. This city of foggy charm and cultural magnetism continues to attract dreamers, professionals, and seekers of the extraordinary, offering a timeless allure that captivates all who venture into its midst."
 
         ]
+        locations= [
+            
+        ]
 
-        for title, description in zip(titles, descriptions):
-            user = rc(users)
+        users = []
+
+        for i in range(70):
+            user = User(
+                username = fake.user_name(),
+                email = fake.email(),
+                countryOfBirth = fake.country()
+            )
+            db.session.add(user)
+            db.session.commit()
+            users.append(user)
+
+# creating posts 
+
+        posts = []
+
+        italyPost = Post(
+            title="Exploring Italy: From Rome to Venice",
+            content = descriptions[0] + "\n\n" + descriptions[1],
+            user_id = rc(users).id
+        )
+        russiaPost = Post(
+            title="Discovering Russia: From Saint Petersburg to Moscow",
+            content = descriptions[2] + "\n\n" + descriptions[3],
+            user_id = rc(users).id
+        )
+        db.session.add_all([italyPost, russiaPost])
+        db.session.commit()
+
+        remaining_titles = titles[4:]
+        remaining_descriptions = descriptions[4:]
+
+        for title, description in zip(remaining_descriptions,remaining_titles):
             post = Post(
-                title=title,
-                content=description,
-                user_id = user.id
+                title = title,
+                content = description,
+                user_id = rc(users).id
             )
             db.session.add(post)
-            posts.append(post)
             db.session.commit()
-            
+
+
+
+# creating images
+        images = []
+
 
         
 
