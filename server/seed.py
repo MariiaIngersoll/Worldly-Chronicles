@@ -10,7 +10,7 @@ fake = Faker()
 # Local imports
 from app import app
 from config import db
-from models import User, Post, Comment, Location
+from models import User, Post, Comment, Location, Image
 
 
 if __name__ == '__main__':
@@ -19,7 +19,9 @@ if __name__ == '__main__':
 
         print("Deleting all records...")
         User.query.delete()
-
+        Post.query.delete()
+        Comment.query.delete()
+        Image.query.delete()
 
         print("Starting seed...")
         # Seed code goes here!
@@ -27,7 +29,7 @@ if __name__ == '__main__':
         
         users = []
 
-        for i in range(200):
+        for i in range(70):
             user = User(
                 username = fake.user_name(),
                 email = fake.email(),
@@ -35,16 +37,24 @@ if __name__ == '__main__':
             )
             db.session.add(user)
             db.session.commit()
+            users.append(user)
+
+        posts = []
+
+
 
         image_urls = [
             'my_phase_4_pictures/rome.jpeg',
             'my_phase_4_pictures/rome2.jpeg',
             'my_phase_4_pictures/venice.jpeg',
-            'my_phase_4_pictures/rio.jpeg',
-            'my_phase_4_pictures/newyork.jpeg',
-            'my_phase_4_pictures/budapest.jpeg',
-            'my_phase_4_pictures/moscow.jpeg',
             'my_phase_4_pictures/St.-Petersburg-at-night.jpg',
+            'my_phase_4_pictures/moscow.jpeg',
+            'my_phase_4_pictures/rio.jpeg',
+            'my_phase_4_pictures/budapest.jpeg',
+            'my_phase_4_pictures/newyork.jpeg',
+            'my_phase_4_pictures/topic-london-gettyimages-760251843-feature.jpeg'
+
+            
 
         ]
         titles = [
@@ -70,25 +80,19 @@ if __name__ == '__main__':
 
         ]
 
+        for title, description in zip(titles, descriptions):
+            user = rc(users)
+            post = Post(
+                title=title,
+                content=description,
+                user_id = user.id
+            )
+            db.session.add(post)
+            posts.append(post)
+            db.session.commit()
+            
 
-
-
-
-    # __tablename__ = 'posts'
-
-    # id = db.Column(db.Integer, primary_key=True)
-    # title = db.Column(db.String)
-    # image = db.Column(db.String)
-    # content = db.Column(db.String)
-    # createdAt = db.Column(db.DateTime, default=datetime.utcnow)
-    # views = db.Column(db.Integer, default=0)
-
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
-    # comments = db.relationship('Comment', backref = 'post')
-
-    # locations = db.relationship('Location', secondary=post_location_association, back_populates='posts')
-
-
+        
 
 
 
