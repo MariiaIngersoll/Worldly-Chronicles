@@ -11,8 +11,10 @@ from config import app, db, api
 # Add your model imports
 
 
-# Views go here!
-
+from flask import request, make_response
+from flask_restful import Resource
+from config import app, db, api
+from models import User, Post, Comment, Location
 @app.route('/')
 def index():
     return '<h1>Phase 4 Project Server</h1>'
