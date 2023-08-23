@@ -17,8 +17,6 @@ class User(db.Model):
     username = db.Column(db.String, nullable = False)
     email = db.Column(db.String, unique=True, nullable = False)
     countryOfBirth = db.Column(db.String)
-
-    comments = db.relationship('Comment', backref = 'user')
     posts = db.relationship('Post', backref = 'user')
 
     def __repr__(self):
@@ -29,13 +27,10 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String)
-    image = db.Column(db.String)
     content = db.Column(db.String)
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
-    views = db.Column(db.Integer, default=0)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
-    comments = db.relationship('Comment', backref = 'post')
     images = db.relationship('Image', backref = 'post')
 
     locations = db.relationship('Location', secondary=post_location_association, back_populates='posts')
@@ -50,16 +45,6 @@ class Image(db.Model):
     url = db.Column(db.String)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
-class Comment(db.Model):
-    __tablename__ = 'comments'
-
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
-
 class Location(db.Model):
     __tablename__ = 'locations'
 
@@ -69,7 +54,8 @@ class Location(db.Model):
 
     posts = db.relationship('Post', secondary=post_location_association, back_populates='locations')
 
-
+    def __repr__(self):
+        return f'The location is {self.country}'
 
 
 

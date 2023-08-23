@@ -11,7 +11,7 @@ fake = Faker()
 # Local imports
 from app import app
 from config import db
-from models import User, Post, Location, Image
+from models import User, Post, Location, Image, post_location_association
 from ipdb import set_trace
 
 
@@ -24,6 +24,7 @@ if __name__ == '__main__':
         Post.query.delete()
         Image.query.delete()
         Location.query.delete()
+        db.session.execute(post_location_association.delete())
 
         image_urls = [
             'my_phase_4_pictures/rome.jpeg',
@@ -55,6 +56,17 @@ if __name__ == '__main__':
 
         ]
 
+        locations_data = [
+            {'country': 'Italy', 'city': 'Rome'},
+            {'country': 'Italy', 'city': 'Venice'},
+            {'country': 'Russia', 'city': 'Moscow'},
+            {'country': 'Russia', 'city': 'Saint Petersburg'},
+            {'country': 'Brazil', 'city': 'Rio de Janeiro'},
+            {'country': 'Hungary', 'city': 'Budapest'},
+            {'country': 'USA', 'city': 'New York'},
+            {'country': 'England', 'city': 'London'}
+        ]
+
 
         users = []
 
@@ -83,6 +95,8 @@ if __name__ == '__main__':
             content=descriptions[2] + "\n\n" + descriptions[3],
             user_id=rc(users).id
         )
+        posts.append(italyPost)
+        posts.append(russiaPost)
         db.session.add_all([italyPost, russiaPost])
 
         # Create and add remaining posts to the database
@@ -125,7 +139,7 @@ if __name__ == '__main__':
         db.session.commit()
 
         # Associate remaining images with their respective posts
-        for post, url in zip(posts, image_urls[5:]):
+        for post, url in zip(posts[2:], image_urls[5:]):
             # set_trace()
             image = Image(
                 url=url
@@ -135,3 +149,26 @@ if __name__ == '__main__':
         
             db.session.commit()
 
+#seeding location model 
+
+        def associate_locations(post, location_data_list):
+            for location_data in location_data_list:
+                country = location_data['country']
+                city = location_data.get('city')
+
+                # Fetch or create the Location instance
+                location = Location.query.filter_by(country=country, city=city).first()
+                if not location:
+                    location = Location(country=country, city=city)
+                    db.session.add(location)
+                    db.session.commit()
+
+                post.locations.append(location)
+
+            # Commit the changes to the database outside the loop
+            db.session.commit()
+
+        associate_locations(italy_post, locations_data[:2])
+        associate_locations(russia_post, locations_data[2:4])
+        for post, location_data in zip(posts[2:], locations_data[4:]):
+             associate_locations(post, [location_data])
