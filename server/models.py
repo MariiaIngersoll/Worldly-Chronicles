@@ -10,19 +10,20 @@ post_location_association = db.Table('post_location_association',
     db.Column('location_id', db.Integer, db.ForeignKey('locations.id'))
 )
 
-class User(db.Model):
+class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable = False)
-    email = db.Column(db.String, unique=True, nullable = False)
+    email = db.Column(db.String, unique=True)
     countryOfBirth = db.Column(db.String)
-    posts = db.relationship('Post', backref = 'user')
+    posts = db.relationship('Post', back_populates = 'user')
+
 
     def __repr__(self):
         return f'{self.username}'
 
-class Post(db.Model):
+class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -30,22 +31,39 @@ class Post(db.Model):
     content = db.Column(db.String)
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
-    images = db.relationship('Image', backref = 'post')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User', back_populates='posts') 
+    images = db.relationship('Image', back_populates = 'post')
 
     locations = db.relationship('Location', secondary=post_location_association, back_populates='posts')
+
+    serialize_rules = (
+        '-locations.posts',
+        '-locations.id',
+        '-user_id',
+        '-images.post',
+        '-user',
+        '-images.id',
+        '-images.post_id'
+
+    )
 
     def __repr__(self):
         return f'"{self.title}" was created at {self.createdAt} by {self.user_id}'
     
-class Image(db.Model):
+    
+class Image(db.Model, SerializerMixin):
     __tablename__ = 'images'
 
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    post = db.relationship('Post', back_populates='images') 
 
-class Location(db.Model):
+    def __repr__(self):
+        return f'The locimage  is {self.url}'
+
+class Location(db.Model,SerializerMixin):
     __tablename__ = 'locations'
 
     id = db.Column(db.Integer, primary_key=True)
