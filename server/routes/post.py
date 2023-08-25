@@ -6,7 +6,12 @@ from flask import request, make_response
 class PostsResource(Resource):
     def get(self):
         posts = [post.to_dict() for post in Post.query.all()]
-        return posts, 200
+        response = make_response(
+            posts, 
+            200
+        )
+        return response
+       
     
     def post(self):
         data = request.get_json()
