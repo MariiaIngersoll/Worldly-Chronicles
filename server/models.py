@@ -38,14 +38,14 @@ class Post(db.Model, SerializerMixin):
     locations = db.relationship('Location', secondary=post_location_association, back_populates='posts')
 
     serialize_rules = (
-        '-locations.posts',
-        '-locations.id',
-        '-user_id',
-        '-images.post',
-        '-user',
         '-images.id',
-        '-images.post_id'
-
+        '-images.post_id',
+        '-user.posts',
+        '-user.id',
+        '-images.post',
+        '-locations.posts',
+        '-user_id',
+        '-locations.id'
     )
 
     def __repr__(self):

@@ -40,7 +40,7 @@ class PostsResource(Resource):
             201
         )
         return response
-    
+@app.route("/posts/:id")
 class PostResource(Resource):
     def get(self, post_id):
         post = Post.query.filter_by(id = post_id).first()
