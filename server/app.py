@@ -75,10 +75,21 @@ class PostResource(Resource):
 
         return response
 
+@app.route('/locations') 
+class LocationResource(Resource):
+    def get(self):
+        locations = [location.to_dict() for location in Location.query.all()]
+        response = make_response(
+            locations,
+            200
+        )
+        return response
+
+
 
 api.add_resource(PostsResource, "/api/posts/", endpoint='posts')
 api.add_resource(PostResource, "/api/posts/<int:post_id>/", endpoint='post_by_id')
-
+api.add_resource(LocationResource, "/api/locations", endpoint="/locations")
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

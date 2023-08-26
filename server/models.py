@@ -69,6 +69,7 @@ class Location(db.Model,SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     country = db.Column(db.String)
     city = db.Column(db.String)
+    flag = db.Column(db.String)
 
     posts = db.relationship('Post', secondary=post_location_association, back_populates='locations')
 
