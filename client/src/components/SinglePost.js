@@ -10,25 +10,29 @@ function SinglePost({ posts }) {
   }
 
   return (
-    <div className="card">
-      <div className="image">
+    <div className="single-post-container">
+      <div className="post-title">
         <h2>{post.title}</h2>
-        <ul>
-          {post.images.map((image) => (
-            <li key={image.id}>
-              <img className="PostImg" src={image.url} alt={post.title} />
-            </li>
-          ))}
-        </ul>
-        <ul>
-          {post.locations.map((loc) => (
-            <li key={loc.id}>
-              <h2>{loc.country}, {loc.city}</h2>
-            </li>
-          ))}
-        </ul>
-        <p>{post.content}</p>
       </div>
+      <ul className="post-images">
+        {post.images.map((image) => (
+          <li key={image.id}>
+            <img
+              className="post-image"
+              src={image.url}
+              alt={post.title}
+            />
+          </li>
+        ))}
+      </ul>
+      <ul className="post-locations">
+        {post.locations.map((loc) => (
+          <li key={loc.id} className="location">
+            <h2>{loc.country}, {loc.city}</h2>
+          </li>
+        ))}
+      </ul>
+      <p className="content">{post.content}</p>
     </div>
   );
 }
