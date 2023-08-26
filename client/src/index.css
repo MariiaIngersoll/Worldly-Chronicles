@@ -1,7 +1,200 @@
-:root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+body {
+  background-color: bisque;
+  max-width: 1400px; 
+  margin: 0 auto; 
+  padding: 0 40px; 
 }
 
+.navbar {
+  background-color: #db9d69;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1000;
+}
+.nav-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Style the navigation links list */
+.nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: center; /* Center the navigation links horizontally */
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+}
+/* Style the navigation links */
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+
+/* Add a stylish hover effect for navigation links */
+.nav-link:hover {
+  color: #ff9900; 
+  transform: scale(1.05);
+}
+
+
+.nav-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background-color: #ff9900; 
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.home-container {
+  text-align: center;
+  padding: 6rem 2rem;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Style the home title */
+.home-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Style the home description */
+.home-description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.single-post-container {
+  padding: 3rem;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.post-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.post {
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 400px; /* Set a fixed height for consistent alignment */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.post-link {
+  text-decoration: none;
+  color: #333;
+}
+
+.image-container {
+  flex: 1; /* Allow the image container to grow and take available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-images {
+  display: flex;
+  justify-content: center; /* Center the images horizontally */
+  align-items: center;
+  flex-wrap: wrap; /* Allow images to wrap to the next line if necessary */
+  margin: -10px; /* Add negative margin to reduce spacing */
+}
+
+.post-image {
+  flex: 0 0 calc(33.33% - 20px); /* Adjust width of each image and add spacing */
+  margin: 10px; /* Add margin for spacing between images */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.post-image img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.post-image {
+  width: 250px;
+  height: 200px;
+  margin-bottom: 1.5rem;
+}
+.location {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.post-content {
+  font-size: 1rem;
+}
+
+.post-link {
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.post-link:hover {
+  color: #ff9900; 
+}
+
+/* Center-align post links when "All Posts" link is clicked */
+.post-link:focus + .posts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.all-posts-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+  background-color: var(--bg); 
+  color: var(--text); 
+  padding-top: 80px;
+}
+
+.home-link {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #ff9900;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.home-link:hover {
+  background-color: #ff6600;
+  transform: scale(1.05);
+}
