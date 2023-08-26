@@ -1,7 +1,13 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
-function SinglePost({ post }) {
-  console.log("Post:", post); // Add this line to check the data received for the post
+function SinglePost({ posts }) {
+  const { postId } = useParams();
+  const post = posts.find((post) => post.id === parseInt(postId));
+
+  if (!post) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="card">
@@ -10,17 +16,16 @@ function SinglePost({ post }) {
         <ul>
           {post.images.map((image) => (
             <li key={image.id}>
-              <img className = "PostImg" src={image.url} alt={post.title} />
+              <img className="PostImg" src={image.url} alt={post.title} />
             </li>
           ))}
         </ul>
         <ul>
-        {post.locations.map((loc) => (
-            <div key={loc.id}>
-                <h2>{loc.country}, {loc.city}</h2>
-        
-            </div>
-            ))}
+          {post.locations.map((loc) => (
+            <li key={loc.id}>
+              <h2>{loc.country}, {loc.city}</h2>
+            </li>
+          ))}
         </ul>
         <p>{post.content}</p>
       </div>
@@ -29,7 +34,3 @@ function SinglePost({ post }) {
 }
 
 export default SinglePost;
-
-
-
-

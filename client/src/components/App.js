@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom" 
 import AllPosts from "./AllPosts";
+import SinglePost from "./SinglePost";
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
     <>
       <Router>
           <Routes>
-             <Route path="/posts" element={<AllPosts posts = {posts}/>} />
+            <Route exact path="/posts" element={<AllPosts posts={posts} />} />
+            <Route path="/posts/:postId" element={<SinglePost posts={posts} />} />  
           </Routes>
       </Router>
     </>
