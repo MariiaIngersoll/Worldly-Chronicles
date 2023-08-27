@@ -66,19 +66,9 @@ if __name__ == '__main__':
             {'country': 'England', 'city': 'London'}
         ]
 
-        flags = [
-            'https://www.magicmurals.com/media/amasty/webp/catalog/product/cache/155d73b570b90ded8a140526fcb8f2da/G/L/GLO-0000000062_jpg.webp',
-            'https://www.youngpioneertours.com/wp-content/uploads/2020/03/russian-flag-russian-flag-russia-flag-of-russia.jpg',
-            'https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/640px-Flag_of_Brazil.svg.png',
-            'https://cdn.britannica.com/55/1455-004-5897143C/Flag-Hungary.jpg',
-            'https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png',
-            'https://cdn.britannica.com/29/22529-004-ED1907BE/Union-Flag-Cross-St-Andrew-of-George.jpg'
-            ]
-
 
         users = []
 
-        # Create and add users to the database
         for i in range(70):
             user = User(
                 username=fake.user_name(),
@@ -178,41 +168,3 @@ if __name__ == '__main__':
         associate_locations(russia_post, locations_data[2:4])
         for post, location_data in zip(posts[2:], locations_data[4:]):
              associate_locations(post, [location_data])
-
-        # flags_for_locations = [
-        #     flags[0], 
-        #     flags[1]  
-        # ]
-        # def associate_flags():
-        #     locations = Location.query.all()
-        #     flag_index = 0
-
-        #     for index, location in enumerate(locations):
-        #         if index % 2 == 0 and index > 0:
-        #             flag_index += 1  # Move to the next flag for every two locations
-        #         flag_index = min(flag_index, len(flags) - 1)  # Ensure we don't go out of bounds
-        #         location.flag = flags[flag_index]
-
-        #     db.session.commit()
-
-        # associate_flags()
-
-        def associate_flags():
-            locations = Location.query.all()
-            country_flags = {}  # Use a dictionary to map countries to flags
-
-            # Create a dictionary of country-flag associations
-            for index, location in enumerate(locations):
-                country = location.country
-                # Cycle through the flags list
-                flag_index = index % len(flags)
-                country_flags[country] = flags[flag_index]
-
-            # Update the location flags based on the associated country flags
-            for location in locations:
-                country = location.country
-                location.flag = country_flags.get(country)
-
-            db.session.commit()
-
-        associate_flags()
