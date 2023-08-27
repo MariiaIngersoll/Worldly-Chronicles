@@ -164,8 +164,7 @@ if __name__ == '__main__':
             for location_data in location_data_list:
                 country = location_data['country']
                 city = location_data.get('city')
-
-                # Fetch or create the Location instance
+                
                 location = Location.query.filter_by(country=country, city=city).first()
                 if not location:
                     location = Location(country=country, city=city)
@@ -173,7 +172,6 @@ if __name__ == '__main__':
 
             post.locations.extend(locations)
             db.session.add_all(locations)
-            # Commit the changes to the database outside the loop
             db.session.commit()
 
         associate_locations(italy_post, locations_data[:2])
@@ -181,21 +179,40 @@ if __name__ == '__main__':
         for post, location_data in zip(posts[2:], locations_data[4:]):
              associate_locations(post, [location_data])
 
-        flags_for_locations = [
-            flags[0],  # Flag for the first two locations
-            flags[1]   # Flag for the third and fourth locations
-        ]
+        # flags_for_locations = [
+        #     flags[0], 
+        #     flags[1]  
+        # ]
+        # def associate_flags():
+        #     locations = Location.query.all()
+        #     flag_index = 0
+
+        #     for index, location in enumerate(locations):
+        #         if index % 2 == 0 and index > 0:
+        #             flag_index += 1  # Move to the next flag for every two locations
+        #         flag_index = min(flag_index, len(flags) - 1)  # Ensure we don't go out of bounds
+        #         location.flag = flags[flag_index]
+
+        #     db.session.commit()
+
+        # associate_flags()
+
         def associate_flags():
             locations = Location.query.all()
-            flag_index = 0
+            country_flags = {}  # Use a dictionary to map countries to flags
 
+            # Create a dictionary of country-flag associations
             for index, location in enumerate(locations):
-                if index % 2 == 0 and index > 0:
-                    flag_index += 1  # Move to the next flag for every two locations
-                flag_index = min(flag_index, len(flags) - 1)  # Ensure we don't go out of bounds
-                location.flag = flags[flag_index]
+                country = location.country
+                # Cycle through the flags list
+                flag_index = index % len(flags)
+                country_flags[country] = flags[flag_index]
+
+            # Update the location flags based on the associated country flags
+            for location in locations:
+                country = location.country
+                location.flag = country_flags.get(country)
 
             db.session.commit()
 
-        # Call the function to associate flags with locations
         associate_flags()

@@ -73,6 +73,10 @@ class Location(db.Model,SerializerMixin):
 
     posts = db.relationship('Post', secondary=post_location_association, back_populates='locations')
 
+    serialize_rules = (
+        "-posts",
+        "-id",
+    )
     def __repr__(self):
         return f'The location is {self.country}'
 
