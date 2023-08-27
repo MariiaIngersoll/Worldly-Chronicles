@@ -14,17 +14,17 @@ function SinglePost({ posts }) {
       <div className="post-title">
         <h2>{post.title}</h2>
       </div>
-      <ul className="post-images">
+      <div className="post-images">
         {post.images.map((image) => (
-          <li key={image.id}>
+          <div key={image.id}>
             <img
               className="post-image"
               src={image.url}
               alt={post.title}
             />
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
       <ul className="post-locations">
         {post.locations.map((loc) => (
           <li key={loc.id} className="location">

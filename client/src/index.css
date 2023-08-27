@@ -6,7 +6,7 @@ body {
 }
 
 .navbar {
-  background-color: #db9d69;
+  background-color: #5f422b;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,49 +17,83 @@ body {
   position: fixed;
   z-index: 1000;
 }
-.nav-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+.nav-wordly {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #ff9900;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Style the navigation links list */
-.nav-list {
-  list-style: none;
+.nav-links {
   display: flex;
-  justify-content: center; /* Center the navigation links horizontally */
-  gap: 2rem;
-  padding: 0;
-  margin: 0;
+  align-items: center;
+  gap: 1rem;
+}
+.nav-left {
+  align-items: center;
+}
+
+.nav-center {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: center;
+  margin-right: 100px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+
+.nav-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-right: 120px;
+  font-family: fantasy;
+}
+
+.nav-emoji {
+  font-size: 2rem;
 }
 /* Style the navigation links */
+.nav-list {
+  display: flex;
+  gap: 1rem;
+  margin-left: 1rem; /* Adjust this value */
+}
+
 .nav-link {
   color: var(--text);
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s;
+  padding: 10px 10px;
+  background-color: bisque;
 }
 
-
-/* Add a stylish hover effect for navigation links */
 .nav-link:hover {
-  color: #ff9900; 
+  color: #ff9900;
   transform: scale(1.05);
 }
-
-
-.nav-link::after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 2px;
-  background-color: #ff9900; 
-  transition: width 0.3s ease;
+.nav-contact .nav-link {
+  color: #db9d69;
+  font-weight: bold;
+  transition: color 0.3s;
 }
 
-.nav-link:hover::after {
-  width: 100%;
+.nav-contact .nav-link:hover {
+  color: #ff9900;
+}
+.nav-contact {
+  margin-left: auto; 
+}
+
+.nav-contact .nav-link {
+  color: #db9d69;
+  font-weight: bold;
+  transition: color 0.3s;
 }
 
 .home-container {
@@ -67,18 +101,39 @@ body {
   padding: 6rem 2rem;
   background-color: var(--bg);
   color: var(--text);
+  max-width: 700px; 
+  margin: 0 auto;
 }
 
-/* Style the home title */
+.home-image {
+  margin-top: 2rem; 
+  text-align: center;
+}
+
+.home-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px; 
+  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, filter 0.3s;
+}
+.home-image img:hover {
+  transform: scale(1.05); 
+  filter: brightness(90%);
+}
+
 .home-title {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  font-family: fantasy;
+  color: chocolate;
 }
 
-/* Style the home description */
 .home-description {
   font-size: 1.2rem;
   margin-bottom: 2rem;
+  font-family: fantasy;
+  color: #000000;
 }
 
 .single-post-container {
@@ -93,24 +148,8 @@ body {
   gap: 20px;
 }
 
-.post {
-  text-align: center;
-  border: 1px solid #ccc;
-  padding: 10px;
-  height: 400px; /* Set a fixed height for consistent alignment */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.post-link {
-  text-decoration: none;
-  color: #333;
-}
-
 .image-container {
-  flex: 1; /* Allow the image container to grow and take available space */
-  display: flex;
+  flex: 1; 
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -118,36 +157,33 @@ body {
 
 .post-images {
   display: flex;
-  justify-content: center; /* Center the images horizontally */
-  align-items: center;
-  flex-wrap: wrap; /* Allow images to wrap to the next line if necessary */
-  margin: -10px; /* Add negative margin to reduce spacing */
-}
-
-.post-image {
-  flex: 0 0 calc(33.33% - 20px); /* Adjust width of each image and add spacing */
-  margin: 10px; /* Add margin for spacing between images */
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: -10px;
 }
 
-.post-image img {
-  max-width: 100%;
-  max-height: 100%;
-}
+.post {
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  height: 100%; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+} 
+
 .post-image {
-  width: 250px;
-  height: 200px;
-  margin-bottom: 1.5rem;
-}
-.location {
-  font-size: 1.2rem;
+  width: 100%;
+  height: 200px; 
+  object-fit: cover;
   margin-bottom: 1rem;
 }
 
-.post-content {
-  font-size: 1rem;
+
+.location {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 .post-link {
@@ -157,20 +193,16 @@ body {
   color: #333;
   text-decoration: none;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 15px; 
   transition: color 0.3s;
 }
 
 .post-link:hover {
-  color: #ff9900; 
+  color: #ff9900;
 }
-
-/* Center-align post links when "All Posts" link is clicked */
-.post-link:focus + .posts-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+.post:hover {
+  background-color: beige;
+  transition: background-color 0.3s;
 }
 .all-posts-container {
   display: flex;
@@ -198,3 +230,4 @@ body {
   background-color: #ff6600;
   transform: scale(1.05);
 }
+

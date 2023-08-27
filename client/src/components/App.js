@@ -4,6 +4,7 @@ import AllPosts from "./AllPosts";
 import SinglePost from "./SinglePost";
 import Home from "./Home";
 import Navigation from "./Navigation";
+import Contact from "./Contact";
 
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
           <Routes>
             <Route path = "/home" element = {<Home />} />
             <Route exact path="/posts" element={<AllPosts posts={posts} />} />
-            <Route path="/posts/:postId" element={<SinglePost posts={posts} />} />  
+            <Route path="/posts/:postId" element={<SinglePost posts={posts} />} /> 
+            <Route path='/contact' element={<Contact />} /> 
           </Routes>
       </Router>
     </>

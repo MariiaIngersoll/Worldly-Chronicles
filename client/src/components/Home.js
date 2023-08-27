@@ -15,6 +15,13 @@ function Home() {
         <Link to="/locations" className="home-link">
           Check Posts by Location
         </Link>
+        <div className="home-image">
+        <img
+          src="https://cdn.divein.com/wp-content/uploads/Travel/travel-quotes-featured.jpg"
+          alt="Travel"
+          className="home-image"
+        />
+      </div>
       </div>
     </div>
   );
