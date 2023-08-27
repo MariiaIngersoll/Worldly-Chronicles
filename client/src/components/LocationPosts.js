@@ -9,7 +9,7 @@ function LocationPosts() {
     fetch(`http://127.0.0.1:5555/api/posts?country=${country}`)
       .then((response) => response.json())
       .then((postData) => {
-        console.log(postData); 
+        console.log(postData); // Check the fetched posts data in the console
         setPosts(postData);
       })
       .catch((error) => {
@@ -24,7 +24,8 @@ function LocationPosts() {
         {posts.map((post) => (
           <li key={post.id}>
             <h3>{post.title}</h3>
-            <img src={post.image}></img>
+            <p>{post.content}</p>
+            {/* Render other post details here */}
           </li>
         ))}
       </ul>
@@ -33,12 +34,5 @@ function LocationPosts() {
 }
 
 export default LocationPosts;
-
-
-
-
-
-
-
 
 

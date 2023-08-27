@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 function AllLocations({ locations }) {
   const navigate = useNavigate();
 
@@ -20,9 +20,9 @@ function AllLocations({ locations }) {
   return (
     <div className="locations-div">
       {uniqueLocations.map(loc => (
-        <div onClick={() => handleLocationClick(loc)}>
+        <Link key={loc.id} to={`/locations/${loc.country}`}>
           {loc.country}
-        </div>
+        </Link>
       ))}
     </div>
   );

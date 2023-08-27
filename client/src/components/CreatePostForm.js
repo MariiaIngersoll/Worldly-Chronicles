@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 
-function CreatePostForm({ addNewPost }) {
+function CreatePostForm({ locations, addNewPost, users }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [country, setCountry] = useState(""); 
-  const [city, setCity] = useState("");    
+  const [locationsData, setLocationsData] = useState([]);
   const [imageURL, setImageURL] = useState("");
 
+  const handleAddLocation = () => {
+    setLocationsData(prev => [...prev, { country: '', city: '' }]);
+  };
+
+    
   const handleSubmit = (e) => {
     e.preventDefault();
+    const locationsToSubmit = locationsData.filter(l => l.country);
+    const randomUser = users[Math.floor(Math.random() * users.length)];
     const postData = {
       title: title,
       content: content,
-      country: country,
-      city: city,
+      user_id: randomUser.id,
+      locations: locationsToSubmit,
       images: [imageURL]
     };
+
     fetch("http://127.0.0.1:5555/api/posts/", {
       method: "POST",
       headers: {
@@ -44,20 +51,36 @@ function CreatePostForm({ addNewPost }) {
           onChange={(e) => setContent(e.target.value)}
         />
 
-        <label>Location:</label>
-        <input
-          type="text"
-          placeholder="Country"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-
+        <label>Locations:</label>
+        {locationsData.map((loc, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              name={`locationsData[${index}][country]`}
+              placeholder="Country"
+              value={loc.country}
+              onChange={(e) => {
+                const updatedLocations = [...locationsData];
+                updatedLocations[index].country = e.target.value;
+                setLocationsData(updatedLocations);
+              }}
+            />
+            <input
+              type="text"
+              name={`locationsData[${index}][city]`}
+              placeholder="City"
+              value={loc.city}
+              onChange={(e) => {
+                const updatedLocations = [...locationsData];
+                updatedLocations[index].city = e.target.value;
+                setLocationsData(updatedLocations);
+              }}
+            />
+          </div>
+        ))}
+        <button type="button" onClick={handleAddLocation}>
+          Add Location
+        </button>
         <label htmlFor="imageURL">Image URL:</label>
         <input
           type="text"
