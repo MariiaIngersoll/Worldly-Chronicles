@@ -57,11 +57,11 @@ body {
 .nav-emoji {
   font-size: 2rem;
 }
-/* Style the navigation links */
+
 .nav-list {
   display: flex;
   gap: 1rem;
-  margin-left: 1rem; /* Adjust this value */
+  margin-left: 1rem; 
 }
 
 .nav-link {
@@ -231,3 +231,6 @@ body {
   transform: scale(1.05);
 }
 
+.locations-div {
+  margin-top: 150px;
+}

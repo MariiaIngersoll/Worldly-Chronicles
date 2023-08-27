@@ -9,6 +9,7 @@ function Navigation() {
         <div className="nav-links">
           <Link to="/home" className="nav-link">Home</Link>
           <Link to="/posts" className="nav-link">All Posts</Link>
+          <Link to='/create/post' className="nav-link">Add Post</Link>
           <Link to="/contact" className="nav-link nav-contact">Contact</Link>
         </div>
       </div>
