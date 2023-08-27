@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-# Standard library imports
 from random import randint, choice as rc
-import pdb
-
-# Remote library imports
 from faker import Faker
 
 fake = Faker()
@@ -80,7 +76,6 @@ if __name__ == '__main__':
 
         db.session.commit()
 
-# Create and add posts to the database
         posts = []
 
         italyPost = Post(
@@ -97,17 +92,19 @@ if __name__ == '__main__':
         posts.append(russiaPost)
         db.session.add_all([italyPost, russiaPost])
 
-        # Create and add remaining posts to the database
+        user_index = 0
         for title, description in zip(titles, descriptions[4:]):
             post = Post(
                 title=title,
                 content=description,
-                user_id=rc(users).id
             )
-            posts.append(post)
+            posts.append(post)  # Add the new post to the posts array
+            db.session.add(post)
+            db.session.commit()
 
-        db.session.add_all(posts)
-        db.session.commit()
+            user_index += 1
+            db.session.commit()
+
 #seeding images
         # Get the Italy post from the database
         italy_post = Post.query.filter_by(title="Exploring Italy: From Rome to Venice").first()
@@ -145,7 +142,7 @@ if __name__ == '__main__':
             post.images.append(image)
             db.session.add(post)
         
-            db.session.commit()
+        db.session.commit()
 
 #seeding location model 
 
@@ -168,3 +165,5 @@ if __name__ == '__main__':
         associate_locations(russia_post, locations_data[2:4])
         for post, location_data in zip(posts[2:], locations_data[4:]):
              associate_locations(post, [location_data])
+
+        db.session.commit()

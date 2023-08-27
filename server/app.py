@@ -11,7 +11,18 @@ from config import api, db
 from models import Post
 from flask import request, make_response
 
+@app.route('/')
+def index():
+    return '<h1>Worldly Chronicles Back End Development</h1>'
 
+
+@app.route("/users")
+class Users(Resource):
+    def get(self):
+        users = [user.to_dict() for user in User.query.all()]
+        response =  make_response(users, 200)  
+        return response
+    
 class PostsResource(Resource):
     def get(self):
         country = request.args.get('country')
@@ -31,23 +42,28 @@ class PostsResource(Resource):
         title = data.get('title')
         content = data.get('content')
         images = data.get('images', [])
-        country = data.get("country")
-        city = data.get("city")  
+        locations_data = data.get('locations', [])  # Array of location data
+        user_id = data.get('user_id')
+
         new_post = Post(
             title=title,
             content=content,
+            user_id=user_id
         )
         for url in images:
             new_image = Image(url=url)
             new_post.images.append(new_image)
-        
-        location = Location.query.filter_by(country=country, city=city).first()
-        if not location:
-          location = Location(country=country, city=city)
 
-        new_post.locations.append(location)
+        for loc_data in locations_data:
+            country = loc_data.get("country")
+            city = loc_data.get("city")
+            location = Location.query.filter_by(country=country, city=city).first()
+            if not location:
+                location = Location(country=country, city=city)
+            new_post.locations.append(location)
+
         db.session.add(new_post)
-        
+
         try:
             db.session.commit()
             response = make_response(
@@ -55,12 +71,11 @@ class PostsResource(Resource):
                 201
             )
             return response
-        
         except Exception as e:
             print("Error:", e)
             db.session.rollback()
             return {"message": "An error occurred while creating the post."}, 500
-    
+        
 @app.route("/posts/<int:post_id>")
 class PostResource(Resource):
     def get(self, post_id):
@@ -108,10 +123,10 @@ class LocationResource(Resource):
     
 
 
-
+api.add_resource(Users, '/api/users/', endpoint='users')
 api.add_resource(PostsResource, "/api/posts/", endpoint='posts')
 api.add_resource(PostResource, "/api/posts/<int:post_id>/", endpoint='post_by_id')
-api.add_resource(LocationResource, "/api/locations", endpoint="/locations")
+api.add_resource(LocationResource, "/api/locations/", endpoint="/locations")
 
 
 

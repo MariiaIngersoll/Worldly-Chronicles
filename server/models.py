@@ -32,7 +32,7 @@ class Post(db.Model, SerializerMixin):
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('User', back_populates='posts') 
+    user = db.relationship('User', back_populates='posts')
     images = db.relationship('Image', back_populates = 'post')
 
     locations = db.relationship('Location', secondary=post_location_association, back_populates='posts')
@@ -41,10 +41,8 @@ class Post(db.Model, SerializerMixin):
         '-images.id',
         '-images.post_id',
         '-user.posts',
-        '-user.id',
         '-images.post',
         '-locations.posts',
-        '-user_id',
         '-locations.id'
     )
 
