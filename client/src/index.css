@@ -186,6 +186,42 @@ body {
   margin-bottom: 1rem;
 }
 
+.locations-grid {
+  margin-top: 200px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);;
+  grid-template-rows: repeat(2, 200px); 
+  gap: 20px;
+
+}
+.logo {
+  width: 150px;
+  height: 150px; 
+  margin-left: 10px;
+}
+
+
+.country-name {
+  flex: 1;
+}
+
+.location-card {
+  border: 1px solid #e2794b;
+  padding: 20px;
+  background-color: #f9a14b4d;
+  border-radius: 30px;
+  text-align: center;
+}
+
+.location-card a {
+  color: #6f4d25;
+  font-size: x-large;
+  font-weight: bold;
+  font-family: fantasy;
+}
+
+
+
 .post-link {
   display: block;
   text-align: center;
@@ -233,4 +269,101 @@ body {
 
 .locations-div {
   margin-top: 150px;
+}
+
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.country-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.country-card a:hover {
+  color: #ff9900;
+}
+
+.country-card a {
+  color: #6f4d25;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.country-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+/* Styling for the country name heading */
+.locations-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+.locations-container {
+  margin-top: 100px;
+  padding: 20px;
+  background-color:#f0813045;
+  box-shadow: 2px 2px;
+  font: message-box
+}
+
+
+/* DECORATING CREATE FORM */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+form {
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: #ffd8a7;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+input,
+textarea {
+  width: 100%;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: bisque;
+  color: #020202;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ffcc99;
 }

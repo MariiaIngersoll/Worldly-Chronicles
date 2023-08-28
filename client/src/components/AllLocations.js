@@ -1,8 +1,8 @@
 import React from "react";
-import { Link, useNavigate } from 'react-router-dom';
-function AllLocations({ locations }) {
-  const navigate = useNavigate();
+import { Link} from 'react-router-dom';
 
+function AllLocations({ locations }) {
+console.log(locations)
   const uniqueLocationsByCountry = {};
   locations.forEach((location) => {
     const country = location.country;
@@ -13,19 +13,20 @@ function AllLocations({ locations }) {
 
   const uniqueLocations = Object.values(uniqueLocationsByCountry);
 
-  const handleLocationClick = (location) => {
-    navigate(`/locations/${location.country}`);
-  };
 
   return (
-    <div className="locations-div">
+    <div className="locations-grid">
       {uniqueLocations.map(loc => (
-        <Link key={loc.id} to={`/locations/${loc.country}`}>
-          {loc.country}
-        </Link>
+        <div key={loc.id} className="location-card">
+          <Link to={`/locations/${loc.country}`}>
+            {loc.country}
+            <img src={'https://icon-library.com/images/country-icon/country-icon-2.jpg'}  alt={loc.country} className="logo"/>
+          </Link>
+        </div>
       ))}
     </div>
   );
 }
+
 
 export default AllLocations;

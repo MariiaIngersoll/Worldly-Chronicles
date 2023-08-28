@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 function LocationPosts() {
   const { country } = useParams();
@@ -9,7 +9,7 @@ function LocationPosts() {
     fetch(`http://127.0.0.1:5555/api/posts?country=${country}`)
       .then((response) => response.json())
       .then((postData) => {
-        console.log(postData); // Check the fetched posts data in the console
+        console.log(postData); 
         setPosts(postData);
       })
       .catch((error) => {
@@ -18,21 +18,20 @@ function LocationPosts() {
   }, [country]);
 
   return (
-    <div>
-      <h2>Posts for {country}</h2>
-      <ul>
+    <div className="locations-container">
+      <h2>Posts about {country}</h2>
+      <div className="country-grid">
         {posts.map((post) => (
-          <li key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.content}</p>
-            {/* Render other post details here */}
-          </li>
+          <div key={post.id} className="country-card">
+            <Link to={`/posts/${post.id}`}>
+              <h3>{post.title}</h3>
+            </Link>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
 
 export default LocationPosts;
-
 

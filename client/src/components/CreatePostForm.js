@@ -4,13 +4,16 @@ function CreatePostForm({ locations, addNewPost, users }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [locationsData, setLocationsData] = useState([]);
-  const [imageURL, setImageURL] = useState("");
+  const [imageURLs, setImageURLs] = useState([]); 
 
   const handleAddLocation = () => {
     setLocationsData(prev => [...prev, { country: '', city: '' }]);
   };
 
-    
+  const handleAddImage = () => {
+    setImageURLs(prev => [...prev, '']);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const locationsToSubmit = locationsData.filter(l => l.country);
@@ -20,7 +23,7 @@ function CreatePostForm({ locations, addNewPost, users }) {
       content: content,
       user_id: randomUser.id,
       locations: locationsToSubmit,
-      images: [imageURL]
+      images: imageURLs
     };
 
     fetch("http://127.0.0.1:5555/api/posts/", {
@@ -35,7 +38,7 @@ function CreatePostForm({ locations, addNewPost, users }) {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <h2>Create a New Post</h2>
       <form onSubmit={handleSubmit}>
         <label>Title:</label>
@@ -51,7 +54,7 @@ function CreatePostForm({ locations, addNewPost, users }) {
           onChange={(e) => setContent(e.target.value)}
         />
 
-        <label>Locations:</label>
+  
         {locationsData.map((loc, index) => (
           <div key={index}>
             <input
@@ -78,18 +81,30 @@ function CreatePostForm({ locations, addNewPost, users }) {
             />
           </div>
         ))}
-        <button type="button" onClick={handleAddLocation}>
-          Add Location
-        </button>
-        <label htmlFor="imageURL">Image URL:</label>
-        <input
-          type="text"
-          id="imageURL"
-          value={imageURL}
-          onChange={(e) => setImageURL(e.target.value)}
-        />
 
-        <button type="submit">Create Post</button>
+        {imageURLs.map((url, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              placeholder="Image URL"
+              value={url}
+              onChange={(e) => {
+                const updatedImageURLs = [...imageURLs];
+                updatedImageURLs[index] = e.target.value;
+                setImageURLs(updatedImageURLs);
+              }}
+            />
+          </div>
+        ))}
+        <div className="button-container">
+          <button type="button" onClick={handleAddLocation}>
+            Add Location
+          </button>
+          <button type="button" onClick={handleAddImage}>
+            Add Image
+          </button>
+          <button type="submit">Create Post</button>
+        </div>
       </form>
     </div>
   );

@@ -9,6 +9,8 @@ function SinglePost({ posts }) {
     return <div>Loading...</div>;
   }
 
+  const paragraphs = post.content.split("\n");
+
   return (
     <div className="single-post-container">
       <div className="post-title">
@@ -25,14 +27,20 @@ function SinglePost({ posts }) {
           </div>
         ))}
       </div>
-      <ul className="post-locations">
-        {post.locations.map((loc) => (
-          <li key={loc.id} className="location">
-            <h2>{loc.country}, {loc.city}</h2>
-          </li>
+      <div>
+        <ul className="post-locations">
+          {post.locations.map((loc, index) => (
+            <li key={loc.id} className="location">
+              <h2>{loc.country}, {loc.city}</h2>
+            </li>
+          ))}
+        </ul>
+        {paragraphs.map((paragraph, index) => (
+          <p key={index} className="content">
+            {paragraph}
+          </p>
         ))}
-      </ul>
-      <p className="content">{post.content}</p>
+      </div>
     </div>
   );
 }
