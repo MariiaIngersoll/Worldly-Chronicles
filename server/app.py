@@ -42,7 +42,7 @@ class PostsResource(Resource):
         title = data.get('title')
         content = data.get('content')
         images = data.get('images', [])
-        locations_data = data.get('locations', [])  # Array of location data
+        locations_data = data.get('locations', []) 
         user_id = data.get('user_id')
 
         new_post = Post(

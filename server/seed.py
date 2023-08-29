@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from random import randint, choice as rc
+from random import choice as rc
 from faker import Faker
 
 fake = Faker()
@@ -92,17 +92,16 @@ if __name__ == '__main__':
         posts.append(russiaPost)
         db.session.add_all([italyPost, russiaPost])
 
-        user_index = 0
+        
         for title, description in zip(titles, descriptions[4:]):
             post = Post(
                 title=title,
                 content=description,
+                user_id = rc(users).id
             )
-            posts.append(post)  # Add the new post to the posts array
+            posts.append(post)  
             db.session.add(post)
             db.session.commit()
-
-            user_index += 1
             db.session.commit()
 
 #seeding images
