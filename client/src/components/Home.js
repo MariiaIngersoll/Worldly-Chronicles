@@ -16,7 +16,7 @@ function Home() {
         </Link>
         <div className="home-image">
         <img
-          src="https://cdn.divein.com/wp-content/uploads/Travel/travel-quotes-featured.jpg"
+          src="https://media.istockphoto.com/id/1285301614/photo/young-man-arms-outstretched-by-the-sea-at-sunrise-enjoying-freedom-and-life-people-travel.jpg?s=612x612&w=0&k=20&c=0QW6GnkuFNYcPZhy26XVHuTc2avJTK8u6l_1iT0SlZk="
           alt="Travel"
           className="home-image"
         />

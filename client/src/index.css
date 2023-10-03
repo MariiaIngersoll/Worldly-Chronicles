@@ -373,3 +373,20 @@ button {
 button:hover {
   background-color: #ffcc99;
 }
+.deleteBtn {
+  padding: 10px 20px;
+  background-color: #eeba91;
+  color: #020202;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.deleteBtnContainer {
+  .button-container {
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center;     /* Vertical centering */
+    height: 100%;            /* Ensure the container takes up the full height of its parent */
+  }
+}

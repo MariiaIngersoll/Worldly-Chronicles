@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from 'react-router-dom';
 
 function AllPosts( {posts }) {
+
     return (
         <div className="all-posts-container">
           <div className="post-list">
@@ -17,10 +18,12 @@ function AllPosts( {posts }) {
                     />
                   )}
                 </Link>
+                
               </div>
             ))}
           </div>
         </div>
       );
     }
+  
 export default AllPosts

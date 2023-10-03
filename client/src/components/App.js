@@ -9,13 +9,12 @@ import AllLocations from "./AllLocations";
 import CreatePostForm from "./CreatePostForm";
 import LocationPosts from "./LocationPosts";
 
+
 function App() {
   const [posts, setPosts] = useState([]);
   const [locations, setLocations] = useState([]);
   const [users,setUsers ] = useState([])
-  console.log(users)
-  console.log(posts)
-  console.log(locations)
+  const [images, setImages] = useState([])
 
   useEffect(() => {
     fetch('http://127.0.0.1:5555/api/posts')
@@ -32,7 +31,10 @@ function App() {
   useEffect(() => {
     fetch('http://127.0.0.1:5555/api/locations')
       .then((r) => r.json())
-      .then((locationsData) => setLocations(locationsData));
+      .then((locationsData) => {
+        console.log(locationsData); 
+        setLocations(locationsData);
+      });
   }, []);
 
   useEffect(() => {
@@ -43,6 +45,38 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch('http://127.0.0.1:5555/api/images')
+      .then((r) => r.json())
+      .then((data) => {
+        setImages(data)
+        console.log(data)
+      });
+  }, []);
+
+  const handleDelete = (post_by_id) => {
+    console.log(post_by_id)
+    fetch(`http://127.0.0.1:5555/api/posts/${post_by_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Post has been deleted successfully!");
+          setPosts((prevPosts) =>
+            prevPosts.filter((post) => post.id !== post_by_id)
+           
+          );
+        } else {
+          console.error("Failed");
+        }
+      })
+      .catch((error) => {
+        console.error("Error while deleting post! :( ", error);
+      });
+  };
 
   return (
     <>
@@ -51,8 +85,8 @@ function App() {
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route exact path="/posts" element={<AllPosts posts={posts} />} />
-          <Route path="/posts/:postId" element={<SinglePost posts={posts} />} /> 
-          <Route path="/create/post" element={<CreatePostForm users = {users} posts={posts} locations={locations} addNewPost={addNewPost} />} />
+          <Route path="/posts/:postId" element={<SinglePost handleDelete = {handleDelete} posts={posts} />} /> 
+          <Route path="/create/post" element={<CreatePostForm users = {users} addNewPost={addNewPost} />} />
           <Route path="/contact" element={<Contact />} /> 
           <Route path="/locations" element={<AllLocations locations={locations}/>} />
           <Route path="/locations/:country" element={<LocationPosts />} />

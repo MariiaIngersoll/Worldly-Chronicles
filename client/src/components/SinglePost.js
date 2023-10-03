@@ -1,13 +1,20 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function SinglePost({ posts }) {
+function SinglePost({ posts, handleDelete }) {
   const { postId } = useParams();
   const post = posts.find((post) => post.id === parseInt(postId));
 
+  const navigate = useNavigate()
   if (!post) {
     return <div>Loading...</div>;
   }
+
+  const handleDeletePost = (postId) => {
+    handleDelete(postId);
+    navigate("/posts");
+  };
 
   const paragraphs = post.content.split("\n");
 
@@ -40,7 +47,12 @@ function SinglePost({ posts }) {
             {paragraph}
           </p>
         ))}
+        <div className="deleteBtnContainer">
+          <button className="deleteBtn" onClick={() => handleDeletePost(post.id)}> Delete</button>
+        </div>
+         
       </div>
+     
     </div>
   );
 }
