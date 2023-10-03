@@ -29,12 +29,15 @@ class Signup(Resource):
 
         username = data.get('username')
         password = data.get('password')
+        email = data.get('email')
 
         if username and password:
             new_user = User(
                 username=username,
+                _password_hash = password,
+                email = email
             )
-            new_user.password_hash = password
+        
             db.session.add(new_user)
             db.session.commit()
 

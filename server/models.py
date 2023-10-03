@@ -3,6 +3,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
 from config import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import validates
 
 
 post_location_association = db.Table('post_location_association',
@@ -34,12 +35,19 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
+    @validates("email")
+    def validate_email(self, key, email):
+        if "@" not in email:
+            raise ValueError("Please provide a valid email")
+        return email
+
+
     def __repr__(self):
         return f'<User {self.username}>'
     
-    serialize_rules = (
-        '-_password_hash'
-    )
+    # serialize_rules = (
+    #     '-_password_hash'
+    # )
 
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
