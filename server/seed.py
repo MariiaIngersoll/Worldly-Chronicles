@@ -6,7 +6,7 @@ from faker import Faker
 fake = Faker()
 # Local imports
 from app import app
-from config import db
+from config import db, bcrypt
 from models import User, Post, Location, Image, post_location_association
 
 if __name__ == '__main__':
@@ -65,12 +65,13 @@ if __name__ == '__main__':
 
         users = []
 
-        for i in range(70):
+        for i in range(15):
             user = User(
                 username=fake.user_name(),
-                email=fake.email(),
-                countryOfBirth=fake.country()
+                email = fake.email()
+                
             )
+            user.password_hash = bcrypt.generate_password_hash("password1").decode("utf-8")
             db.session.add(user)
             users.append(user)
 
