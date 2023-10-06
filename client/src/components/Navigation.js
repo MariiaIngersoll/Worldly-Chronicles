@@ -5,8 +5,14 @@ function Navigation({ user, setUser }) {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    setUser(null);
-    navigate("/");
+    fetch('/api/logout/', {
+      method: "DELETE"
+    }).then((res) => {
+      if(res.ok) {
+        setUser(null);
+        navigate('/');
+      }
+    });
   };
 
   return (

@@ -71,7 +71,7 @@ api.add_resource(CheckSession, '/api/check_session/')
 
 class Logout(Resource):
     def delete(self):
-        session['user_id'] = None
+        session.clear()  # Clear all session data
         response = make_response('', 204)
         return response
 api.add_resource(Logout, '/api/logout/')
