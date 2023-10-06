@@ -1,5 +1,4 @@
 from sqlalchemy_serializer import SerializerMixin
-from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
 from config import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -31,7 +30,6 @@ class User(db.Model, SerializerMixin):
             password.encode('utf-8'))
         self._password_hash = password_hash.decode('utf-8')
 
-    # compares hashed password to the stored hash  
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 

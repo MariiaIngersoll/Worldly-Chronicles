@@ -10,34 +10,28 @@ from flask_restful import Resource
 from config import api, db
 from models import Post
 
+from werkzeug.exceptions import NotFound
+from sqlalchemy.exc import IntegrityError
+
+
 @app.route('/')
 def index():
     return '<h1>Welcome to Worldly-Chronicles!</h1>'
 
-@app.route("/users")
-class Users(Resource):
-    def get(self):
-        users = [user.to_dict() for user in User.query.all()]
-        response =  make_response(users, 200)  
-        return response
-    
-api.add_resource(Users, '/api/users/', endpoint='users')
-
 class Signup(Resource):
     def post(self):
-        data = request.get_json()
+        json_data = request.get_json()
 
-        username = data.get('username')
-        password = data.get('password')
-        email = data.get('email')
+        username = json_data.get('username')
+        email = json_data.get('email')
+        password = json_data.get('password')
 
         if username and password:
             new_user = User(
                 username=username,
-                _password_hash = password,
-                email = email
+                email = email,
             )
-        
+            new_user.password_hash = password
             db.session.add(new_user)
             db.session.commit()
 
@@ -46,13 +40,14 @@ class Signup(Resource):
             response = make_response(new_user.to_dict(), 201)
             return response
         
-api.add_resource(Signup, '/api/signup/')
+
+api.add_resource(Signup, "/api/signup/")
 
 class Login(Resource):
     def post(self):
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
+        json_data = request.get_json()
+        username = json_data.get('username')
+        password = json_data.get('password')
         user = User.query.filter(User.username == username).first()
         
         if user:
@@ -60,8 +55,8 @@ class Login(Resource):
                 session['user_id'] = user.id
                 response = make_response(user.to_dict(), 200)
                 return response
-            
-        return {'Something went wrong. Please try again :('}, 401
+        return {'Incorrect username or password'}, 401
+    
 api.add_resource(Login, '/api/login/')
 
 class CheckSession(Resource):
@@ -80,6 +75,16 @@ class Logout(Resource):
         response = make_response('', 204)
         return response
 api.add_resource(Logout, '/api/logout/')
+
+@app.route("/users")
+class Users(Resource):
+    def get(self):
+        users = [user.to_dict() for user in User.query.all()]
+        response =  make_response(users, 200)  
+        return response
+    
+api.add_resource(Users, '/api/users/')
+    
 
 @app.route("/posts")
 class PostsResource(Resource):
