@@ -116,17 +116,15 @@ body {
 }
 
 .home-image img {
-  max-width: 100%;
+  width: auto;
   height: auto;
-  border-radius: 10px; 
+  border-radius: 50%;
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s, filter 0.3s;
   opacity: 0.9;
   border: ridge;
-}
-.home-image img:hover {
-  transform: scale(1.05); 
-  filter: brightness(90%);
+  width: 400px;
+  height: 300px;
 }
 
 .home-title {

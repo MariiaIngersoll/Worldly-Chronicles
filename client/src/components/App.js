@@ -8,6 +8,7 @@ import Contact from "./Contact";
 import AllLocations from "./AllLocations";
 import CreatePostForm from "./CreatePostForm";
 import LocationPosts from "./LocationPosts";
+import Authentication from "./Authentication";
 
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
   const [locations, setLocations] = useState([]);
   const [users,setUsers ] = useState([])
   const [images, setImages] = useState([])
+
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetch('http://127.0.0.1:5555/api/posts')
@@ -34,14 +37,6 @@ function App() {
       .then((locationsData) => {
         console.log(locationsData); 
         setLocations(locationsData);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:5555/api/users')
-      .then((r) => r.json())
-      .then((data) => {
-        setUsers(data)
       });
   }, []);
 
@@ -78,12 +73,30 @@ function App() {
       });
   };
 
+  useEffect(() => {
+    fetch("/api/check_session/").then((res) => {
+      if (res.ok){
+        res.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
+
+  if (!user) {
+    return (
+      <>
+        <Router>
+          <Authentication setUser={setUser}/>
+        </Router>
+      </>
+    )
+  }
+
   return (
     <>
       <Router>
-        <Navigation />
+        <Navigation user={user} setUser={setUser}/>
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route exact path="/posts" element={<AllPosts posts={posts} />} />
           <Route path="/posts/:postId" element={<SinglePost handleDelete = {handleDelete} posts={posts} />} /> 
           <Route path="/create/post" element={<CreatePostForm users = {users} addNewPost={addNewPost} />} />
