@@ -9,6 +9,7 @@ import AllLocations from "./AllLocations";
 import CreatePostForm from "./CreatePostForm";
 import LocationPosts from "./LocationPosts";
 import Authentication from "./Authentication";
+import EditPost from "./EditPost";
 
 
 function App() {
@@ -16,8 +17,8 @@ function App() {
   const [locations, setLocations] = useState([]);
   const [users,setUsers ] = useState([])
   const [images, setImages] = useState([])
-
   const [user, setUser] = useState(null);
+  
 
   useEffect(() => {
     fetch('http://127.0.0.1:5555/api/posts')
@@ -49,6 +50,16 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch('http://127.0.0.1:5555/api/users')
+      .then((r) => r.json())
+      .then((data) => {
+        setUsers(data)
+        console.log(data)
+      });
+  }, []);
+
+
   const handleDelete = (post_by_id) => {
     console.log(post_by_id)
     fetch(`http://127.0.0.1:5555/api/posts/${post_by_id}`, {
@@ -62,7 +73,6 @@ function App() {
           console.log("Post has been deleted successfully!");
           setPosts((prevPosts) =>
             prevPosts.filter((post) => post.id !== post_by_id)
-           
           );
         } else {
           console.error("Failed");
@@ -96,10 +106,11 @@ function App() {
       <Router>
         <Navigation user={user} setUser={setUser}/>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home user={user}/>} />
           <Route exact path="/posts" element={<AllPosts posts={posts} />} />
           <Route path="/posts/:postId" element={<SinglePost handleDelete = {handleDelete} posts={posts} />} /> 
-          <Route path="/create/post" element={<CreatePostForm users = {users} addNewPost={addNewPost} />} />
+          <Route path="/create/post" element={<CreatePostForm  users = {users} addNewPost={addNewPost} />} />
+          <Route path="/posts/edit/:postId" element={<EditPost setPosts={setPosts} posts = {posts}/>} />
           <Route path="/contact" element={<Contact />} /> 
           <Route path="/locations" element={<AllLocations locations={locations}/>} />
           <Route path="/locations/:country" element={<LocationPosts />} />

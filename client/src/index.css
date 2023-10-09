@@ -1,7 +1,7 @@
 body {
   background-color: bisque;
   max-width: 1400px; 
-  margin: 0 auto; 
+  margin-top: 80px; 
   padding: 0 40px; 
 }
 
@@ -140,12 +140,40 @@ body {
 }
 
 .single-post-container {
-  margin-top: 30px;
-  padding: 3rem;
-  background-color: var(--bg);
-  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  text-align: center; 
+  margin: 0 auto; 
+  max-width: 600px; 
+  padding: 20px;
 }
 
+.shared-btn-style {
+  background-color: #e2794b;
+  color: beige; 
+  padding: 10px 20px; 
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 5px; 
+}
+
+.posth2 {
+  font-size: 24px;
+}
+
+.post-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.post-locations {
+  list-style: none;
+  padding: 0;
+}
 .post-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -160,11 +188,9 @@ body {
 }
 
 .post-images {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: -10px;
+  display: flex; 
+  justify-content: flex-start;
+  gap: 10px; 
 }
 
 .post {
@@ -370,21 +396,4 @@ button {
 
 button:hover {
   background-color: #ffcc99;
-}
-.deleteBtn {
-  padding: 10px 20px;
-  background-color: #eeba91;
-  color: #020202;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.deleteBtnContainer {
-  .button-container {
-    display: flex;
-    justify-content: center; /* Horizontal centering */
-    align-items: center;     /* Vertical centering */
-    height: 100%;            /* Ensure the container takes up the full height of its parent */
-  }
 }

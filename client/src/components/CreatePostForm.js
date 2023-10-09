@@ -10,7 +10,7 @@ function CreatePostForm({ addNewPost, users }) {
     title: yup.string().required('YOU MUST ENTER A TITLE!').typeError('Title must be a string'),
     content: yup.string().required('Content is required').min(10, 'Content must be at least 10 characters'),
   });
-// WORK ON VALIDATES DATA TYPE! 
+
   const formik = useFormik({
     initialValues: {
       title: '',

@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function SinglePost({ posts, handleDelete }) {
+function SinglePost({ handleDelete }) {
+  const [post, setPost] = useState({});
   const { postId } = useParams();
-  const post = posts.find((post) => post.id === parseInt(postId));
 
-  const navigate = useNavigate()
-  if (!post) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`/api/posts/${postId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setPost(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching post data:", error);
+      });
+  }, [postId]);
+
+  if (!post || post.id !== parseInt(postId)) {
     return <div>Loading...</div>;
   }
 
@@ -21,16 +34,12 @@ function SinglePost({ posts, handleDelete }) {
   return (
     <div className="single-post-container">
       <div className="post-title">
-        <h2>{post.title}</h2>
+        <h2 className="posth2">{post.title}</h2>
       </div>
       <div className="post-images">
         {post.images.map((image) => (
           <div key={image.id}>
-            <img
-              className="post-image"
-              src={image.url}
-              alt={post.title}
-            />
+            <img className="post-image" src={image.url} alt={post.title} />
           </div>
         ))}
       </div>
@@ -47,12 +56,11 @@ function SinglePost({ posts, handleDelete }) {
             {paragraph}
           </p>
         ))}
-        <div className="deleteBtnContainer">
-          <button className="deleteBtn" onClick={() => handleDeletePost(post.id)}> Delete</button>
+        <div className="btn-container">
+          <button className="shared-btn-style deleteBtn" onClick={() => handleDeletePost(post.id)}> Delete</button>
+          <Link to={`/posts/edit/${post.id}`} className="shared-btn-style updateLink">Update</Link>
         </div>
-         
       </div>
-     
     </div>
   );
 }

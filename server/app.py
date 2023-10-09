@@ -16,7 +16,7 @@ from sqlalchemy.exc import IntegrityError
 
 @app.route('/')
 def index():
-    return '<h1>Welcome to Worldly-Chronicles!</h1>'
+    return f'<h1>Welcome to Worldly-Chronicles!</h1>'
 
 class Signup(Resource):
     def post(self):
@@ -170,20 +170,22 @@ class PostResource(Resource):
         
     def patch(self, post_id):
         form_json = request.get_json()
+
         post = Post.query.filter_by(id=post_id).first()
         post.title = form_json['title']
         post.content = form_json['content']
-    
+        
+        db.session.add(post)
         db.session.commit()
         
         response = make_response(
             post.to_dict(), 
-            200 
+            200
         )
-
         return response
 
 api.add_resource(PostResource, "/api/posts/<int:post_id>", endpoint='post_by_id')
+
 @app.route('/locations') 
 class LocationResource(Resource):
     def get(self):

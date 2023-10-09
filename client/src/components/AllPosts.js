@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 function AllPosts( {posts }) {
 
+  // WORK ON UPDATING THIS COMPONENT WITH NEW DATA
+
     return (
         <div className="all-posts-container">
           <div className="post-list">

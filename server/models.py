@@ -43,9 +43,10 @@ class User(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<User {self.username}>'
     
-    # serialize_rules = (
-    #     '-_password_hash'
-    # )
+    serialize_rules = (
+        '-_password_hash',
+        '-posts',
+    )
 
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
@@ -62,12 +63,15 @@ class Post(db.Model, SerializerMixin):
     locations = db.relationship('Location', secondary=post_location_association, back_populates='posts')
 
     serialize_rules = (
+        '-user_id',
+        '-user.email',
+        '-user.id',
         '-images.id',
         '-images.post_id',
         '-user.posts',
         '-images.post',
         '-locations.posts',
-        '-locations.id'
+        '-locations.id',
     )
 
     def __repr__(self):

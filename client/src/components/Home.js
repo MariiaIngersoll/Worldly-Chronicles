@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+function Home( {user} ) {
 
   return (
     <div className="home-container">
-      <h1 className="home-title">Welcome to Worldly Chronicles!</h1>
+      <h1 className="home-title">Welcome to Worldly Chronicles, {user.username}!</h1>
       <p className="home-paragraph">
         Join us on a journey through captivating narratives that bring the world's most stunning places to life. Our blog lets you explore iconic landmarks, tranquil escapes, and cultural treasures without leaving your seat.
       </p>
