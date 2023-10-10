@@ -9,7 +9,6 @@ function EditPost() {
   const { postId } = useParams();
 
   const [post, setPost] = useState({});
-  console.log(post);
 
   const formSchema = yup.object().shape({
     title: yup.string().required("Title is required"),
@@ -33,8 +32,8 @@ function EditPost() {
 
   const formik = useFormik({
     initialValues: {
-      title: post.title || "",
-      content: post.content || "",
+      title: post.title,
+      content: post.content,
     },
     validationSchema: formSchema,
     onSubmit: (values) => {

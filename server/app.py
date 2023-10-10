@@ -4,19 +4,21 @@ from flask_restful import Resource
 
 from config import app, db, api
 from models import User, Post, Image, Location
-from ipdb import set_trace
 
 from flask_restful import Resource
 from config import api, db
 from models import Post
 
-from werkzeug.exceptions import NotFound
-from sqlalchemy.exc import IntegrityError
-
 
 @app.route('/')
 def index():
-    return f'<h1>Welcome to Worldly-Chronicles!</h1>'
+    response_body = '<h1>Welcome to Worldly-Chronicles!</h1>'
+    response =  make_response(
+        response_body,
+        200
+    )
+    return response
+
 
 class Signup(Resource):
     def post(self):
@@ -71,7 +73,7 @@ api.add_resource(CheckSession, '/api/check_session/')
 
 class Logout(Resource):
     def delete(self):
-        session.clear()  # Clear all session data
+        session.clear() 
         response = make_response('', 204)
         return response
 api.add_resource(Logout, '/api/logout/')
@@ -85,6 +87,31 @@ class Users(Resource):
     
 api.add_resource(Users, '/api/users/')
     
+@app.route('/locations') 
+class LocationResource(Resource):
+    def get(self):
+        locations = [location.to_dict() for location in Location.query.all()]
+        response = make_response(
+            locations,
+            200
+        )
+        return response
+api.add_resource(LocationResource, "/api/locations/", endpoint="/locations")
+    
+@app.route('/locations/<string:country>')
+class LocationByCountryResource(Resource):
+    def get(self, country):
+        locations = Location.query.filter_by(country=country).all()
+        
+        if locations:
+            locations_data = [location.to_dict() for location in locations]
+            response = make_response(locations_data, 200)
+        else:
+            response = make_response({'message': 'No locations found for this country'}, 404)
+        
+        return response
+
+api.add_resource(LocationByCountryResource, "/api/locations/<string:country>")
 
 @app.route("/posts")
 class PostsResource(Resource):
@@ -145,6 +172,8 @@ class PostsResource(Resource):
 
 api.add_resource(PostsResource, "/api/posts/", endpoint='posts')
 
+
+
 @app.route("/posts/<int:post_id>")
 class PostResource(Resource):
     def get(self, post_id):
@@ -186,15 +215,7 @@ class PostResource(Resource):
 
 api.add_resource(PostResource, "/api/posts/<int:post_id>", endpoint='post_by_id')
 
-@app.route('/locations') 
-class LocationResource(Resource):
-    def get(self):
-        locations = [location.to_dict() for location in Location.query.all()]
-        response = make_response(
-            locations,
-            200
-        )
-        return response
+
     
 @app.route('/images')
 class ImageResourse(Resource):
@@ -206,10 +227,7 @@ class ImageResourse(Resource):
         )
         return response
     
-
-api.add_resource(LocationResource, "/api/locations/", endpoint="/locations")
 api.add_resource(ImageResourse,"/api/images/", endpoint="/images")
-
 
 
 if __name__ == '__main__':

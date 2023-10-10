@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react"
 import { Link} from 'react-router-dom';
 
-function AllLocations({ locations }) {
-console.log(locations)
+function AllLocations({ locations, setLocations }) {
+
+  const updateLocations = () => {
+    fetch("http://127.0.0.1:5555/api/locations")
+      .then((response) => response.json())
+      .then((data) => {
+        setLocations(data);
+      });
+  };
+
+  useEffect(() => {
+    updateLocations();
+  }, []); 
+
+
   const uniqueLocationsByCountry = {};
   locations.forEach((location) => {
     const country = location.country;

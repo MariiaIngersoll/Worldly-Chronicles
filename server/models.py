@@ -55,12 +55,13 @@ class Post(db.Model, SerializerMixin):
     title = db.Column(db.String)
     content = db.Column(db.String)
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
-
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('User', back_populates='posts')
-    images = db.relationship('Image', back_populates = 'post')
 
-    locations = db.relationship('Location', secondary=post_location_association, back_populates='posts')
+
+    user = db.relationship('User', back_populates='posts')
+    images = db.relationship('Image', back_populates = 'post', cascade='all')
+
+    locations = db.relationship('Location', secondary=post_location_association, back_populates='posts', cascade='all')
 
     serialize_rules = (
         '-user_id',
@@ -86,6 +87,10 @@ class Image(db.Model, SerializerMixin):
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     post = db.relationship('Post', back_populates='images') 
 
+    serialize_rules = (
+        '-post',
+        '-post_id',
+    )
     def __repr__(self):
         return f'The image  is {self.url}'
 
@@ -99,8 +104,8 @@ class Location(db.Model,SerializerMixin):
     posts = db.relationship('Post', secondary=post_location_association, back_populates='locations')
 
     serialize_rules = (
-
+        "-posts",
         "-id",
     )
     def __repr__(self):
-        return f'The location is {self.country}'
+        return f'The location is country: {self.country}, city: {self.city}'

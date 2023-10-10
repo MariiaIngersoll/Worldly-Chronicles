@@ -16,7 +16,6 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [locations, setLocations] = useState([]);
   const [users,setUsers ] = useState([])
-  const [images, setImages] = useState([])
   const [user, setUser] = useState(null);
   
 
@@ -38,15 +37,6 @@ function App() {
       .then((locationsData) => {
         console.log(locationsData); 
         setLocations(locationsData);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:5555/api/images')
-      .then((r) => r.json())
-      .then((data) => {
-        setImages(data)
-        console.log(data)
       });
   }, []);
 
@@ -107,12 +97,12 @@ function App() {
         <Navigation user={user} setUser={setUser}/>
         <Routes>
           <Route path="/" element={<Home user={user}/>} />
-          <Route exact path="/posts" element={<AllPosts posts={posts} />} />
+          <Route exact path="/posts" element={<AllPosts posts={posts} setPosts={setPosts} />} />
           <Route path="/posts/:postId" element={<SinglePost handleDelete = {handleDelete} posts={posts} />} /> 
           <Route path="/create/post" element={<CreatePostForm  users = {users} addNewPost={addNewPost} />} />
           <Route path="/posts/edit/:postId" element={<EditPost setPosts={setPosts} posts = {posts}/>} />
           <Route path="/contact" element={<Contact />} /> 
-          <Route path="/locations" element={<AllLocations locations={locations}/>} />
+          <Route path="/locations" element={<AllLocations setLocations ={setLocations} locations={locations}/>} />
           <Route path="/locations/:country" element={<LocationPosts />} />
         </Routes>
       </Router>
