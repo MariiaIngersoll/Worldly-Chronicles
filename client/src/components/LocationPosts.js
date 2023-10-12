@@ -4,9 +4,9 @@ import { Link, useParams } from 'react-router-dom';
 function LocationPosts() {
   const { country } = useParams();
   const [posts, setPosts] = useState([]);
-
+  
   useEffect(() => {
-    fetch(`http://127.0.0.1:5555/api/posts?country=${country}`)
+    fetch(`/api/locations/${country}`)
       .then((response) => response.json())
       .then((postData) => {
         console.log(postData); 
@@ -16,7 +16,6 @@ function LocationPosts() {
         console.error("Error fetching posts:", error);
       });
   }, [country]);
-
   return (
     <div className="locations-container">
       <h2>Posts about {country}</h2>

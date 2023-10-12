@@ -69,6 +69,7 @@ class CheckSession(Resource):
             return response
         except:
             abort(401, "Please log in")
+
 api.add_resource(CheckSession, '/api/check_session/')
 
 class Logout(Resource):
@@ -76,18 +77,16 @@ class Logout(Resource):
         session.clear() 
         response = make_response('', 204)
         return response
+    
 api.add_resource(Logout, '/api/logout/')
 
-@app.route("/users")
 class Users(Resource):
     def get(self):
         users = [user.to_dict() for user in User.query.all()]
-        response =  make_response(users, 200)  
-        return response
+        return users, 200
     
 api.add_resource(Users, '/api/users/')
     
-@app.route('/locations') 
 class LocationResource(Resource):
     def get(self):
         locations = [location.to_dict() for location in Location.query.all()]
@@ -98,29 +97,20 @@ class LocationResource(Resource):
         return response
 api.add_resource(LocationResource, "/api/locations/", endpoint="/locations")
     
-@app.route('/locations/<string:country>')
 class LocationByCountryResource(Resource):
     def get(self, country):
-        locations = Location.query.filter_by(country=country).all()
-        
-        if locations:
-            locations_data = [location.to_dict() for location in locations]
-            response = make_response(locations_data, 200)
+        posts = [post.to_dict() for post in Post.query.join(Post.locations).filter(Location.country == country)]
+        if posts:
+            response = make_response(posts, 200)
         else:
-            response = make_response({'message': 'No locations found for this country'}, 404)
-        
+            response = make_response({'message': 'No posts found for this location'}, 404)
         return response
 
 api.add_resource(LocationByCountryResource, "/api/locations/<string:country>")
 
-@app.route("/posts")
 class PostsResource(Resource):
     def get(self):
-        country = request.args.get('country')
-        if country:
-            posts = [post.to_dict() for post in Post.query.filter(Post.locations.any(country=country))]
-        else:
-            posts = [post.to_dict() for post in Post.query.all()]
+        posts = [post.to_dict() for post in Post.query.all()]
 
         response = make_response(
             posts, 
@@ -173,8 +163,6 @@ class PostsResource(Resource):
 api.add_resource(PostsResource, "/api/posts/", endpoint='posts')
 
 
-
-@app.route("/posts/<int:post_id>")
 class PostResource(Resource):
     def get(self, post_id):
         post = Post.query.filter_by(id = post_id).first()
@@ -216,8 +204,6 @@ class PostResource(Resource):
 api.add_resource(PostResource, "/api/posts/<int:post_id>", endpoint='post_by_id')
 
 
-    
-@app.route('/images')
 class ImageResourse(Resource):
     def get(self):
         images = [image.to_dict() for image in Image.query.all()]

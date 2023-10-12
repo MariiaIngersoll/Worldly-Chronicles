@@ -52,7 +52,7 @@ function App() {
 
   const handleDelete = (post_by_id) => {
     console.log(post_by_id)
-    fetch(`http://127.0.0.1:5555/api/posts/${post_by_id}`, {
+    fetch(`/api/posts/${post_by_id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
