@@ -35,7 +35,7 @@ function Authentication({ setUser }) {
       .catch((error) => {
         console.error(error)
         setErrorMessage("Invalid credentials. Please check your username and password.")
-        console.log(error.response)
+  
       })
   }
 
