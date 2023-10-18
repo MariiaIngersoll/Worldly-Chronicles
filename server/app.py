@@ -215,10 +215,15 @@ class ImageResourse(Resource):
     
 api.add_resource(ImageResourse,"/api/images/", endpoint="/images")
 
+class FilterLogic(Resource):
+    def get(self,n):
+        posts = Location.query.filter(Location.country.startswith(n)).all()
+        filtered = [post.to_dict() for post in posts] 
+        return filtered, 200
+    
+api.add_resource(FilterLogic, "/api/loca/<string:n>")
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
     
-    
-
-

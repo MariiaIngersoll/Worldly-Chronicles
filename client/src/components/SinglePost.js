@@ -26,7 +26,7 @@ function SinglePost({ handleDelete }) {
 
   const handleDeletePost = (postId) => {
     handleDelete(postId);
-    navigate("/posts");
+    navigate("/");
   };
 
   const paragraphs = post.content.split("\n");

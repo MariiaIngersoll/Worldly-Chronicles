@@ -66,6 +66,7 @@ class Post(db.Model, SerializerMixin):
     serialize_rules = (
         '-user_id',
         '-user.email',
+        '-createdAt',
         '-user.id',
         '-images.id',
         '-images.post_id',
@@ -104,7 +105,12 @@ class Location(db.Model,SerializerMixin):
     posts = db.relationship('Post', secondary=post_location_association, back_populates='locations')
 
     serialize_rules = (
-        "-posts",
+        "-posts.id",
+        "-posts.content",
+        "-posts.images",
+        "-posts.createdAt",
+        "-posts.user",
+        "-posts.locations",
         "-id",
     )
     def __repr__(self):
