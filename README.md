@@ -17,15 +17,24 @@ Wordly-Chronicles offers a range of features for travel enthusiasts:
 
 - **Filter Posts by Location**: Filter and retrieve travel posts based on the location where the travel experience took place.
 
+## Prerequisites
+Before you start, ensure you have the following prerequisites installed:
+
+Node.js: You'll need Node.js to manage the client-side of the application. You can download it from nodejs.org.
+
+Python: The server-side of the application uses Python. Ensure you have Python installed.
+
+Pipenv: Pipenv is used to manage Python dependencies. You can install it via pip:
+pip install pipenv
 
 ## Installation
 1. Clone the repository
 2. Navigate to the project directory and then into the server directory
 3. Install the server-side dependencies using pipenv install and activate the virtual environment using pipenv shell
-4. Run python app.py for port 5555
+4. Run python app.py
 5. In another terminal, navigate to the project directory and then into the client directory
 6. Run npm install
-7. Run npm start for port 3000
+7. Run npm start 
 
 
 ## Contributing
